@@ -336,7 +336,7 @@ class SearchMemory:
             if a in paths[0]:
                 cycle = paths[0] 
             else:
-                paths[1]
+                cycle = paths[1]
             n = len(cycle)
             for i, j in gen_swap_edge(n):
                 delta, a, b, c, d = gen_swap_edge_2(self.cities, cycle, i, j)
@@ -406,7 +406,7 @@ for file in ['kroa.csv','krob.csv']:
     coords = pd.read_csv(file, sep=' ')
     positions=np.array([coords['x'], coords['y']]).T
     cities = np.round(pairwise_distances(np.array(positions)))
-    local_variants = [Steepest(cities), SearchCandidates(cities), SearchMemory(cities)]
+    local_variants = [Steepest(cities), SearchMemory(cities), SearchCandidates(cities)]
     for solve in [regret]:
         solutions = list(map(solve, [(cities, i) for i in range(100)]))
         scores = [score(cities, x) for x in solutions]
