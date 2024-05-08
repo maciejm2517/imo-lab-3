@@ -431,7 +431,6 @@ for file in ['kroa.csv','krob.csv']:
             time_results.append(dict(file=file, function=solve.__name__, search=type(local_search).__name__, min=float(min(times)), mean=float(np.mean(times)), max=float(max(times))))
 scores = pd.DataFrame(score_results)
 times = pd.DataFrame(time_results)
+
 print(scores)
 print(times)
-scores.to_csv('csv_scores.csv', index=False)  
-times.to_csv('csv_times.csv', index=False)  
