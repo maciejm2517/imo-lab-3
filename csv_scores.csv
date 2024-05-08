@@ -1,0 +1,9 @@
+file,function,search,min,mean,max
+kroa,random_cycle,none,303178,339560,376795
+kroa,random_cycle,Steepest,36374,38514,41278
+kroa,random_cycle,SearchMemory,43220,45865,47972
+kroa,random_cycle,SearchCandidates,36042,39870,43866
+krob,random_cycle,none,305855,332829,356864
+krob,random_cycle,Steepest,36618,38768,41282
+krob,random_cycle,SearchMemory,43117,45552,48321
+krob,random_cycle,SearchCandidates,37921,39723,42600
