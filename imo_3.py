@@ -176,7 +176,7 @@ def plot_optimized_tours(positions, cycle1, cycle2, method):
 
     plt.legend()
     plt.title(method)
-    plt.show()
+    plt.savefig(method)
 
 def index(xs, e):
     try:
@@ -407,10 +407,10 @@ class SearchMemory:
             moves = sorted(list(set(moves).union(set(new_moves))), key=lambda x: x[0])
             
         return time.time() - start, paths
-    
+
 score_results = []
 time_results = []
-for file in ['kroa.csv','krob.csv']:
+for file in ['kroa','krob']:
     coords = pd.read_csv(file, sep=' ')
     positions=np.array([coords['x'], coords['y']]).T
     cities = np.round(pairwise_distances(np.array(positions)))
@@ -418,15 +418,15 @@ for file in ['kroa.csv','krob.csv']:
     for solve in [random_cycle]:
         solutions = list(map(solve, [(cities, i) for i in range(100)]))
         scores = [score(cities, x) for x in solutions]
-        score_results.append(dict(file=file, function=solve.__name__, search="none", variant="none", min=int(min(scores)), mean=int(np.mean(scores)), max=int(max(scores))))
+        score_results.append(dict(file=file, function=solve.__name__, search="none", min=int(min(scores)), mean=int(np.mean(scores)), max=int(max(scores))))
         best_idx = np.argmin(scores)
         best = solutions[best_idx]
-        plot_optimized_tours(positions, *best, f'cycle - {solve.__name__}')
+        plot_optimized_tours(positions, *best, f'dataset - {file}, cycle - {solve.__name__}')
         for local_search in local_variants:
             times, new_solutions = zip(*list(map(local_search, solutions)))
             new_scores = [score(cities, x) for x in new_solutions]
             best = new_solutions[best_idx]
-            plot_optimized_tours(positions, *best, f'cycle - {solve.__name__}, method - {(type(local_search).__name__).lower()}')
+            plot_optimized_tours(positions, *best, f'dataset - {file}, cycle - {solve.__name__}, method - {(type(local_search).__name__).lower()}')
             score_results.append(dict(file=file, function=solve.__name__, search=type(local_search).__name__, min=int(min(new_scores)), mean=int(np.mean(new_scores)), max=int(max(new_scores))))
             time_results.append(dict(file=file, function=solve.__name__, search=type(local_search).__name__, min=float(min(times)), mean=float(np.mean(times)), max=float(max(times))))
 scores = pd.DataFrame(score_results)
